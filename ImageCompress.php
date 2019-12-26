@@ -5,7 +5,7 @@
  * @Date: 2019-09-29 08:55:00
  * @LastEditors: 张文Uncle
  * @LastEditTime: 2019-09-29 14:03:12
- * @Descripttion: 
+ * @Descripttion:
  */
 require 'GifFrameExtractor.php';
 require 'GIFEncoder.class.php';
@@ -85,6 +85,10 @@ class ImageCompress {
         $new_width = $this->imageinfo['width'] * $this->percent;
         $new_height = $this->imageinfo['height'] * $this->percent;
         $image_thump = imagecreatetruecolor($new_width, $new_height);
+        if (in_array($this->imageinfo['type'], ['png', 'gif'])) {
+            imagealphablending($image_thump, false);
+            imagesavealpha($image_thump, true);
+        }
         //将原图复制带图片载体上面，并且按照一定比例压缩,极大的保持了清晰度
         imagecopyresampled($image_thump, $this->image, 0, 0, 0, 0, $new_width, $new_height, $this->imageinfo['width'], $this->imageinfo['height']);
         imagedestroy($this->image);
@@ -97,11 +101,11 @@ class ImageCompress {
         header('Content-Type: image/' . $this->imageinfo['type']);
         if (is_string($this->image)) {
             echo $this->image;
-        }else{
+        } else {
             $funcs = "image" . $this->imageinfo['type'];
             $funcs($this->image);
         }
-        
+
     }
     /**
      * 保存图片到硬盘：

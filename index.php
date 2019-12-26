@@ -1,3 +1,3 @@
 <?php
 require "ImageCompress.php";
-(new ImageCompress('1.png'))->compressImg();
+(new ImageCompress('1.png'))->compressImg('2');
